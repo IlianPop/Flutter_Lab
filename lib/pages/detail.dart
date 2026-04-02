@@ -39,10 +39,15 @@ class Detail extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.asset(
-                                  'assets/images/left_arrow_white.png',
-                                  height: 24,
-                                  width: 24,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/left_arrow_white.png',
+                                    height: 24,
+                                    width: 24,
+                                  ),
                                 ),
                                 Text(
                                   "Berlin, Germany",

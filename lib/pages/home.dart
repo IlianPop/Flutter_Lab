@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lab3/pages/add_city.dart';
+import 'package:lab3/pages/detail.dart';
+import 'package:lab3/pages/my_location.dart';
+import 'package:lab3/pages/news.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -21,172 +25,197 @@ class Home extends StatelessWidget {
                     height: 24,
                     width: 24,
                   ),
-                  Text(
-                    "Berlin, Germany",
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF363B64),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyLocation()),
+                      );
+                    },
+                    child: Text(
+                      "Berlin, Germany",
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF363B64),
+                      ),
                     ),
                   ),
-                  Image.asset(
-                    'assets/images/dark_search_logo.png',
-                    height: 24,
-                    width: 24,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddCity()),
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/images/dark_search_logo.png',
+                      height: 24,
+                      width: 24,
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color(0xFF3C6FD1), Color(0xFF7CA9FF)],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Detail()),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Color(0xFF3C6FD1), Color(0xFF7CA9FF)],
+                    ),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: EdgeInsetsGeometry.only(
-                    bottom: 20,
-                    top: 5,
-                    left: 25,
-                    right: 15,
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Chance of rain 60%",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsetsGeometry.only(
+                      bottom: 20,
+                      top: 5,
+                      left: 25,
+                      right: 15,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Chance of rain 60%",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                "Partly Cloudy",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                SizedBox(height: 5),
+                                Text(
+                                  "Partly Cloudy",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          Transform.translate(
-                            offset: Offset(0, 10),
-                            child: Image.asset(
-                              'assets/images/big_sun_cloud.png',
-                              height: 110,
-                              width: 110,
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/light_geo_logo.png',
-                            height: 20,
-                            width: 20,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            "Washington DC, USA",
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
+                            Spacer(),
+                            Transform.translate(
+                              offset: Offset(0, 10),
+                              child: Image.asset(
+                                'assets/images/big_sun_cloud.png',
+                                height: 110,
+                                width: 110,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "72°F",
-                            style: GoogleFonts.poppins(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/light_geo_logo.png',
+                              height: 20,
+                              width: 20,
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/mini_rain.png',
-                                height: 17,
-                                width: 16,
+                            SizedBox(width: 10),
+                            Text(
+                              "Washington DC, USA",
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
                               ),
-                              SizedBox(width: 5),
-                              Text(
-                                "10%",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "72°F",
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/mini_rain.png',
+                                  height: 17,
+                                  width: 16,
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/mini_sun.png',
-                                height: 17,
-                                width: 16,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "0.5",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                                SizedBox(width: 5),
+                                Text(
+                                  "10%",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/mini_wind.png',
-                                height: 17,
-                                width: 16,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "124 mp/h",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/mini_sun.png',
+                                  height: 17,
+                                  width: 16,
                                 ),
-                              ),
-                              SizedBox(width: 5),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                                SizedBox(width: 5),
+                                Text(
+                                  "0.5",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/mini_wind.png',
+                                  height: 17,
+                                  width: 16,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  "124 mp/h",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 25),
+
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -204,66 +233,74 @@ class Home extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Colors.white54, Colors.white],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => News()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Colors.white54, Colors.white],
+                            ),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadiusGeometry.vertical(
-                                top: Radius.circular(20),
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadiusGeometry.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                                child: Image.asset(
+                                  'assets/images/border_chess.png',
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              child: Image.asset(
-                                'assets/images/border_chess.png',
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Padding(
-                              padding: EdgeInsetsGeometry.all(25),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Here’s what to expect from Tuesday weather forecast",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF363B64),
+                              SizedBox(height: 20),
+                              Padding(
+                                padding: EdgeInsetsGeometry.all(25),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Here’s what to expect from Tuesday weather forecast",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF363B64),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "14 minutes ago",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          color: Color(0xFFA098AE),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "14 minutes ago",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            color: Color(0xFFA098AE),
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        "WC Channel",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF363B64),
+                                        Text(
+                                          "WC Channel",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF363B64),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 25),

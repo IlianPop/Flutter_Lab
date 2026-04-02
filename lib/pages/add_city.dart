@@ -16,10 +16,15 @@ class AddCity extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    'assets/images/left_arrow.png',
-                    height: 22,
-                    width: 22,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/images/left_arrow.png',
+                      height: 24,
+                      width: 24,
+                    ),
                   ),
                   Text(
                     "Add City",
