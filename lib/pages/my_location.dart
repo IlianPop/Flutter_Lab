@@ -1,10 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
-class MyLocation extends StatelessWidget {
+String weatherLogo(String status) {
+  switch (status) {
+    case 'Clear':
+      return 'assets/images/sun.png';
+    case 'Clouds':
+      return 'assets/images/cloud.png';
+    case 'Rain':
+      return 'assets/images/rain.png';
+    default:
+      return 'assets/images/sun.png';
+  }
+}
+
+class MyLocation extends StatefulWidget {
   const MyLocation({super.key});
   @override
+  State<MyLocation> createState() => _MyLocation();
+}
+
+class _MyLocation extends State<MyLocation> {
+  Map<String, dynamic>? weatherMap;
+  String today = DateFormat('EEEE, d MMMM yyyy').format(DateTime.now());
+  String city = "Berlin";
+  Future<void> getWeather() async {
+    final url = Uri.parse(
+      'https://api.openweathermap.org/data/2.5/forecast?q=Berlin&appid=ea855618ddec6ddb2499386d645cdd69&units=metric',
+    );
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      setState(() {
+        weatherMap = jsonDecode(response.body);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getWeather();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (weatherMap == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     return Scaffold(
       backgroundColor: Color(0xFFE5E5E5),
       body: SafeArea(
@@ -65,7 +111,7 @@ class MyLocation extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Liverpool, United Kingdom",
+                            "Berlin, Germany",
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -73,7 +119,7 @@ class MyLocation extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Partly Cloudly",
+                            weatherMap!['list'][0]['weather'][0]['main'],
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               color: Colors.white,
@@ -83,7 +129,7 @@ class MyLocation extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        "32°",
+                        "${weatherMap!['list'][0]['main']['temp'].toStringAsFixed(0)}°",
                         style: GoogleFonts.poppins(
                           fontSize: 36,
                           fontWeight: FontWeight.w300,
@@ -129,62 +175,18 @@ class MyLocation extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "Yesterday",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF363B64),
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                        colors: [
-                                          Color(0xFF3C6FD1),
-                                          Color(0xFF7CA9FF),
-                                        ],
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 30,
-                                        vertical: 10,
-                                      ),
-                                      child: Text(
-                                        "Today",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Tomorrow",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF363B64),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 15),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "2 PM",
+                                        DateFormat('HH:mm')
+                                            .format(
+                                              DateTime.parse(
+                                                weatherMap!['list'][1]['dt_txt'],
+                                              ),
+                                            )
+                                            .toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300,
@@ -193,13 +195,15 @@ class MyLocation extends StatelessWidget {
                                       ),
                                       SizedBox(height: 10),
                                       Image.asset(
-                                        "assets/images/sun.png",
+                                        weatherLogo(
+                                          weatherMap!['list'][1]['weather'][0]['main'],
+                                        ),
                                         height: 29.46,
                                         width: 28,
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "28°",
+                                        "${weatherMap!['list'][1]['main']['temp'].toStringAsFixed(0)}°",
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           color: Color(0xFF363B64),
@@ -212,7 +216,13 @@ class MyLocation extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "3 PM",
+                                        DateFormat('HH:mm')
+                                            .format(
+                                              DateTime.parse(
+                                                weatherMap!['list'][2]['dt_txt'],
+                                              ),
+                                            )
+                                            .toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300,
@@ -221,13 +231,15 @@ class MyLocation extends StatelessWidget {
                                       ),
                                       SizedBox(height: 10),
                                       Image.asset(
-                                        "assets/images/sun_cloud.png",
+                                        weatherLogo(
+                                          weatherMap!['list'][2]['weather'][0]['main'],
+                                        ),
                                         height: 29.46,
                                         width: 28,
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "27°",
+                                        "${weatherMap!['list'][2]['main']['temp'].toStringAsFixed(0)}°",
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           color: Color(0xFF363B64),
@@ -240,7 +252,13 @@ class MyLocation extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "4 PM",
+                                        DateFormat('HH:mm')
+                                            .format(
+                                              DateTime.parse(
+                                                weatherMap!['list'][3]['dt_txt'],
+                                              ),
+                                            )
+                                            .toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300,
@@ -249,13 +267,15 @@ class MyLocation extends StatelessWidget {
                                       ),
                                       SizedBox(height: 10),
                                       Image.asset(
-                                        "assets/images/cloud.png",
-                                        height: 50,
-                                        width: 45,
+                                        weatherLogo(
+                                          weatherMap!['list'][3]['weather'][0]['main'],
+                                        ),
+                                        height: 29.46,
+                                        width: 28,
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "26°",
+                                        "${weatherMap!['list'][3]['main']['temp'].toStringAsFixed(0)}°",
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           color: Color(0xFF363B64),
@@ -268,7 +288,13 @@ class MyLocation extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "5 PM",
+                                        DateFormat('HH:mm')
+                                            .format(
+                                              DateTime.parse(
+                                                weatherMap!['list'][4]['dt_txt'],
+                                              ),
+                                            )
+                                            .toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300,
@@ -277,13 +303,15 @@ class MyLocation extends StatelessWidget {
                                       ),
                                       SizedBox(height: 10),
                                       Image.asset(
-                                        "assets/images/sun_rain.png",
+                                        weatherLogo(
+                                          weatherMap!['list'][4]['weather'][0]['main'],
+                                        ),
                                         height: 29.46,
                                         width: 28,
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "22°",
+                                        "${weatherMap!['list'][4]['main']['temp'].toStringAsFixed(0)}°",
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           color: Color(0xFF363B64),
@@ -296,7 +324,13 @@ class MyLocation extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "6 PM",
+                                        DateFormat('HH:mm')
+                                            .format(
+                                              DateTime.parse(
+                                                weatherMap!['list'][5]['dt_txt'],
+                                              ),
+                                            )
+                                            .toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300,
@@ -305,13 +339,15 @@ class MyLocation extends StatelessWidget {
                                       ),
                                       SizedBox(height: 10),
                                       Image.asset(
-                                        "assets/images/rain.png",
+                                        weatherLogo(
+                                          weatherMap!['list'][5]['weather'][0]['main'],
+                                        ),
                                         height: 29.46,
                                         width: 28,
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "25°",
+                                        "${weatherMap!['list'][5]['main']['temp'].toStringAsFixed(0)}°",
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           color: Color(0xFF363B64),
@@ -406,7 +442,7 @@ class MyLocation extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        "124 mp/h",
+                                        "${weatherMap!['list'][0]['wind']['speed']} km/h",
                                         style: GoogleFonts.poppins(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
@@ -429,7 +465,7 @@ class MyLocation extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        "972 mBar",
+                                        "${weatherMap!['list'][0]['main']['pressure']} mBar",
                                         style: GoogleFonts.poppins(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
